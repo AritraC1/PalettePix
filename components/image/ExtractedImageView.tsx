@@ -71,7 +71,7 @@ export function ExtractedImageView({
           <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-brand-600 sm:text-xs">
             A palette, uniquely yours
           </p>
-          <h1 className="mt-1.5 text-2xl font-extrabold tracking-tight text-[#1b2a22] sm:text-3xl md:text-[34px]">
+          <h1 className="mt-1.5 text-2xl font-extrabold tracking-tight text-ink sm:text-3xl md:text-[34px]">
             Your image. Your colors.
           </h1>
         </div>
@@ -144,17 +144,17 @@ export function ExtractedImageView({
         onDragLeave={onDragLeave}
         onDragOver={onDragOver}
         onDrop={onDrop}
-        className={`relative mt-3 flex min-h-[320px] sm:min-h-[440px] max-h-[520px] w-full items-center justify-center overflow-hidden rounded-2xl bg-[#f4f4f4] p-4 sm:p-6 transition-all ${
+        className={`relative mt-3 flex min-h-80 sm:min-h-110 max-h-130 w-full items-center justify-center overflow-hidden rounded-2xl bg-[#f4f4f4] p-4 sm:p-6 transition-all ${
           isDragging ? "ring-4 ring-brand-500/30" : ""
         }`}
       >
-        <div className="relative h-full max-h-[460px] w-full flex items-center justify-center">
+        <div className="relative h-full max-h-115 w-full flex items-center justify-center">
           <Image
             src={image.dataUrl}
             alt={image.name}
             width={image.width || 800}
             height={image.height || 600}
-            className="max-h-[300px] sm:max-h-[420px] w-auto max-w-full rounded-lg object-contain shadow-2xs"
+            className="max-h-75 sm:max-h-105 w-auto max-w-full rounded-lg object-contain shadow-2xs"
             unoptimized={image.dataUrl.startsWith("data:")}
             priority
           />

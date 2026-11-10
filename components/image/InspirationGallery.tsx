@@ -42,7 +42,7 @@ export function InspirationGallery({
               }`}
             >
               {/* Image preview */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-100">
+              <div className="relative aspect-16/10 w-full overflow-hidden bg-neutral-100">
                 <Image
                   src={sample.imageUrl}
                   alt={sample.title}

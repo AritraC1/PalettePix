@@ -4,7 +4,7 @@ A sleek and responsive web app to extract and display dominant colors from any i
 It lets:
 - Upload an image
 - Display the uploaded image
-- Extract the top dominant colors using node-vibrant/browser
+- Extract the top dominant colors
 - Show the dominant colors as swatches
 - Copy any color's HEX code to clipboard by clicking on it
 
