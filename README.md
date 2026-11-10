@@ -1,6 +1,14 @@
+<div align="center">
+
+![PalettePix Landing Page](public/landing.png)
+
 # PalettePix: Image Color Picker
 
 PalettePix is a browser-based image palette extractor built with Next.js. It lets you upload an image, drag and drop a file, or choose one of the built-in sample scenes, then extract a curated set of dominant colors from the image and copy them with a single click.
+
+</div>
+
+---
 
 ## What it does
 
