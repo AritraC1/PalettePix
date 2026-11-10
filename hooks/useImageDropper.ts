@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import type { UploadedImage, InspirationSample, ExtractedColor } from "@/types/image";
+import type { SavedPalette } from "@/lib/bookmarks";
 import { extractDominantColors, hexToExtractedColor } from "@/lib/color-extractor";
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20 MB
@@ -105,6 +106,41 @@ export function useImageDropper() {
     setIsLoading(false);
   }, []);
 
+  // Reopen an image from a saved bookmark, restoring its exact colors
+  // (no re-extraction — the bookmark is the source of truth).
+  const handleSelectSavedPalette = useCallback((palette: SavedPalette) => {
+    setError(null);
+    setIsLoading(true);
+
+    // Palettes saved without a snapshot get a placeholder built from
+    // their own colors, mirroring the drawer's fallback thumbnail.
+    const dataUrl =
+      palette.thumbnailUrl ?? buildPalettePlaceholder(palette.colors.map((c) => c.hex));
+
+    const commit = (width?: number, height?: number) => {
+      setUploadedImage({
+        id: palette.id,
+        name: palette.name,
+        size: 0,
+        type: /^data:([^;,]+)/.exec(dataUrl)?.[1] ?? "image/png",
+        dataUrl,
+        width,
+        height,
+        createdAt: palette.createdAt,
+      });
+      setExtractedColors(
+        palette.colors.map((c) => hexToExtractedColor(c.hex))
+      );
+      setIsLoading(false);
+    };
+
+    // Measure so the restored image keeps its real aspect ratio.
+    const img = new Image();
+    img.onload = () => commit(img.naturalWidth, img.naturalHeight);
+    img.onerror = () => commit();
+    img.src = dataUrl;
+  }, []);
+
   const handleDragEnter = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -165,7 +201,22 @@ export function useImageDropper() {
     handleDrop,
     processFile,
     handleSelectSample,
+    handleSelectSavedPalette,
     clearImage,
     clearError,
   };
+}
+
+/** Palette-only bookmarks have no image snapshot; show the colors themselves. */
+function buildPalettePlaceholder(hexes: string[]): string {
+  const stripes = hexes
+    .map(
+      (hex, i) =>
+        `<rect x="${(i * 100) / hexes.length}" y="0" width="${
+          100 / hexes.length
+        }" height="100" fill="${hex}"/>`
+    )
+    .join("");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">${stripes}</svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }

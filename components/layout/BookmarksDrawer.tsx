@@ -2,15 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Bookmark, Check, Lock, Pencil, Search, Trash2, X } from "lucide-react";
-
-export type SavedPalette = {
-  id: string;
-  name: string;
-  /** Object URL or data URL. Falls back to a gradient of the palette colors. */
-  thumbnailUrl?: string;
-  colors: { hex: string }[];
-  createdAt: number;
-};
+import type { SavedPalette } from "@/lib/bookmarks";
 
 type BookmarksDrawerProps = {
   open: boolean;

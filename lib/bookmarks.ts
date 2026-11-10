@@ -1,7 +1,15 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import type { SavedPalette } from "@/components/layout/BookmarksDrawer";
+
+export type SavedPalette = {
+  id: string;
+  name: string;
+  /** Object URL or data URL. Falls back to a gradient of the palette colors. */
+  thumbnailUrl?: string;
+  colors: { hex: string }[];
+  createdAt: number;
+};
 
 const STORAGE_KEY = "palettepix.bookmarks";
 

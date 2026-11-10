@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Bookmark, Menu, Sparkles, X as CloseIcon } from "lucide-react";
 import { BookmarksDrawer } from "@/components/layout/BookmarksDrawer";
 import { useBookmarks } from "@/lib/bookmarks";
+import { selectSavedPalette } from "@/lib/palette-selection";
 
 const GITHUB_URL = "https://github.com/AritraC1/PalettePix";
 const X_URL = "https://x.com/Aritra_C1";
@@ -162,7 +163,11 @@ export function Navbar() {
         open={drawerOpen}
         onOpenChange={setDrawerOpen}
         palettes={palettes}
-        onSelect={() => setDrawerOpen(false)}
+        onSelect={(id) => {
+          const palette = palettes.find((p) => p.id === id);
+          if (palette) selectSavedPalette(palette);
+          setDrawerOpen(false);
+        }}
         onRename={renamePalette}
         onRemove={removePalette}
       />

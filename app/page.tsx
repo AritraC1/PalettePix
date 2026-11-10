@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, type ChangeEvent } from "react";
+import { useEffect, useRef, type ChangeEvent } from "react";
 import { useImageDropper } from "@/hooks/useImageDropper";
+import { onSavedPaletteSelected } from "@/lib/palette-selection";
 import { ImageDropper } from "@/components/image/ImageDropper";
 import { InspirationGallery } from "@/components/image/InspirationGallery";
 import { ExtractedImageView } from "@/components/image/ExtractedImageView";
@@ -19,9 +20,16 @@ export default function Home() {
     handleDrop,
     processFile,
     handleSelectSample,
+    handleSelectSavedPalette,
     clearImage,
     clearError,
   } = useImageDropper();
+
+  // Opening a saved palette from the bookmarks drawer restores it here.
+  useEffect(
+    () => onSavedPaletteSelected(handleSelectSavedPalette),
+    [handleSelectSavedPalette]
+  );
 
   const changeImageInputRef = useRef<HTMLInputElement>(null);
 
