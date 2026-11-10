@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="twilightSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7C6C82"/>
+      <stop offset="35%" stop-color="#AB8898"/>
+      <stop offset="65%" stop-color="#D79F9C"/>
+      <stop offset="85%" stop-color="#f5c2b0"/>
+      <stop offset="100%" stop-color="#fbe0cb"/>
+    </linearGradient>
+    <linearGradient id="distantMountains" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#69566e"/>
+      <stop offset="100%" stop-color="#8c6d7d"/>
+    </linearGradient>
+    <linearGradient id="duneLit" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#f2d2bf"/>
+      <stop offset="50%" stop-color="#E8C5AC"/>
+      <stop offset="100%" stop-color="#DFBBA2"/>
+    </linearGradient>
+    <linearGradient id="duneShadow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#AB8898"/>
+      <stop offset="50%" stop-color="#937478"/>
+      <stop offset="100%" stop-color="#6c5059"/>
+    </linearGradient>
+    <linearGradient id="midDuneLit" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f3d4c3"/>
+      <stop offset="100%" stop-color="#d9ad95"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="800" height="340" fill="url(#twilightSky)"/>
+
+  <!-- Setting Sun Glow -->
+  <ellipse cx="640" cy="220" rx="90" ry="85" fill="#ffe9dc" opacity="0.85" filter="blur(16px)"/>
+  <ellipse cx="640" cy="220" rx="45" ry="42" fill="#fff9f5" opacity="0.95" filter="blur(6px)"/>
+
+  <!-- Distant Layer of Mountains / Dunes -->
+  <path d="M420,240 Q540,210 630,225 T800,230 L800,320 L420,320 Z" fill="url(#distantMountains)" opacity="0.7"/>
+  <path d="M0,265 Q180,245 320,250 T620,240 L620,320 L0,320 Z" fill="#88687a" opacity="0.6"/>
+
+  <!-- Middle Dune Formations -->
+  <!-- Left to right gentle dune -->
+  <path d="M0,280 Q220,260 480,290 T800,270 L800,380 L0,380 Z" fill="url(#duneShadow)" opacity="0.5"/>
+  <path d="M260,270 Q440,265 620,290 T800,275 L800,350 L260,350 Z" fill="url(#midDuneLit)"/>
+
+  <!-- Foreground Huge Sweeping Dune Ridge -->
+  <!-- Lit Slope -->
+  <path d="M0,320 Q240,280 440,335 Q600,380 800,390 L800,500 L0,500 Z" fill="url(#duneLit)"/>
+  
+  <!-- S-Curve Shadow Slope of Foreground Dune -->
+  <path d="M0,320 C180,310 260,370 330,420 C380,455 420,485 450,500 L0,500 Z" fill="url(#duneShadow)"/>
+
+  <!-- Subtle wind ripples on sand -->
+  <path d="M20,440 Q80,432 140,445" stroke="#DFBBA2" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <path d="M60,460 Q120,450 190,462" stroke="#DFBBA2" stroke-width="1.5" fill="none" opacity="0.35"/>
+  <path d="M380,360 Q440,352 510,365" stroke="#ffe7d8" stroke-width="1.5" fill="none" opacity="0.45"/>
+  <path d="M440,390 Q520,382 600,395" stroke="#ffe7d8" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <path d="M520,425 Q600,418 690,430" stroke="#ffe7d8" stroke-width="1.5" fill="none" opacity="0.4"/>
+
+  <!-- Gentle evening haze -->
+  <rect y="210" width="800" height="70" fill="#f8cfbe" opacity="0.25" filter="blur(10px)"/>
+</svg>
+

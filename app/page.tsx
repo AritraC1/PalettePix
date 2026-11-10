@@ -1,69 +1,169 @@
-import Image from "next/image";
+"use client";
+
+import { useRef, type ChangeEvent } from "react";
+import { useImageDropper } from "@/hooks/useImageDropper";
+import { ImageDropper } from "@/components/image/ImageDropper";
+import { InspirationGallery } from "@/components/image/InspirationGallery";
+import { ExtractedImageView } from "@/components/image/ExtractedImageView";
 
 export default function Home() {
+  const {
+    uploadedImage,
+    extractedColors,
+    isDragging,
+    isLoading,
+    error,
+    handleDragEnter,
+    handleDragLeave,
+    handleDragOver,
+    handleDrop,
+    processFile,
+    handleSelectSample,
+    clearImage,
+    clearError,
+  } = useImageDropper();
+
+  const changeImageInputRef = useRef<HTMLInputElement>(null);
+
+  const handleGlobalInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      processFile(files[0]);
+    }
+    e.target.value = "";
+  };
+
+  const handleTriggerChangeImage = () => {
+    changeImageInputRef.current?.click();
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <>
+      {/* Hidden global input for change image actions */}
+      <input
+        ref={changeImageInputRef}
+        type="file"
+        accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml,image/avif"
+        className="sr-only"
+        onChange={handleGlobalInputChange}
+        aria-label="Change image file"
+      />
+
+      {uploadedImage && extractedColors ? (
+        /* Extracted Palette View (Matches Screenshot 2) */
+        <ExtractedImageView
+          image={uploadedImage}
+          colors={extractedColors}
+          isDragging={isDragging}
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          onChangeImage={handleTriggerChangeImage}
+          onClose={clearImage}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
+      ) : (
+        /* Image Dropper Initial View (Matches Screenshot 1) */
+        <div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-start px-4 pt-10 pb-20 sm:pt-14 sm:pb-24">
+          {/* Top Branding / Hero Header */}
+          <div className="flex flex-col items-center text-center">
+            {/* Logo Mark with Sparkles */}
+            <div className="relative mb-5 inline-block">
+              <svg
+                viewBox="0 0 40 40"
+                className="size-12 sm:size-13"
+                aria-hidden="true"
+              >
+                <rect
+                  x="2"
+                  y="7"
+                  width="15"
+                  height="15"
+                  rx="4"
+                  fill="#2f7a56"
+                  transform="rotate(-8 9.5 14.5)"
+                />
+                <rect
+                  x="20"
+                  y="2"
+                  width="15"
+                  height="15"
+                  rx="4"
+                  fill="#8fc5a0"
+                  transform="rotate(6 27.5 9.5)"
+                />
+                <rect
+                  x="4"
+                  y="25"
+                  width="14"
+                  height="14"
+                  rx="4"
+                  fill="#ecd391"
+                  transform="rotate(-6 11 32)"
+                />
+                <rect
+                  x="21"
+                  y="21"
+                  width="15"
+                  height="15"
+                  rx="4"
+                  fill="#d98b6f"
+                  transform="rotate(8 28.5 28.5)"
+                />
+              </svg>
+
+              {/* Sparkles Cluster on top right */}
+              <svg
+                viewBox="0 0 24 24"
+                className="absolute -top-1.5 -right-3.5 size-5 text-brand-600"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M12 0L13.5 4.5L18 6L13.5 7.5L12 12L10.5 7.5L6 6L10.5 4.5L12 0Z" />
+                <path d="M19 12L19.8 14.2L22 15L19.8 15.8L19 18L18.2 15.8L16 15L18.2 14.2L19 12Z" />
+                <circle cx="7" cy="14" r="1.5" />
+              </svg>
+            </div>
+
+            {/* Eyebrow */}
+            <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-brand-600 sm:text-xs">
+              A little inspiration. Six beautiful colors.
+            </p>
+
+            {/* Main Headline */}
+            <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl md:text-[44px]">
+              Extract colors from any image<span className="text-brand-600">.</span>
+            </h1>
+
+            {/* Subhead */}
+            <p className="mt-2.5 max-w-lg text-sm text-neutral-500 sm:text-base">
+              Upload an image and discover its dominant color palette.
+            </p>
+          </div>
+
+          {/* Main Content Area */}
+          <div className="mt-8 flex w-full max-w-155 flex-col items-center gap-7 sm:mt-10">
+            {/* Dropper Box */}
+            <ImageDropper
+              isDragging={isDragging}
+              isLoading={isLoading}
+              error={error}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+              onFileSelect={processFile}
+              onClearError={clearError}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+            {/* Inspiration Cards */}
+            <InspirationGallery
+              onSelectSample={handleSelectSample}
+              selectedSampleId={uploadedImage?.isSample ? uploadedImage.id : undefined}
+            />
+          </div>
         </div>
-      </main>
-    </div>
+      )}
+    </>
   );
 }
